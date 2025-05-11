@@ -130,6 +130,9 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_Thread1_Entry */
 void Thread1_Entry(void *argument)
 {
+  /* Prevent unused argument warning */
+  (void)argument;
+
   /* USER CODE BEGIN Thread1 */
   uint16_t i;
   /* Infinite loop */
@@ -168,6 +171,9 @@ void Thread1_Entry(void *argument)
 /* USER CODE END Header_ThreadSUSI_Entry */
 void ThreadSUSI_Entry(void *argument)
 {
+  /* Prevent unused argument warning */
+  (void)argument;
+
   /* USER CODE BEGIN ThreadSUSI */
 
   HAL_StatusTypeDef HAL_Status;
@@ -177,13 +183,13 @@ void ThreadSUSI_Entry(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    HAL_Status = HAL_SPI_Receive(&hspi1, (uint8_t *)aRxBuffer, 1, 100);
+    HAL_Status = HAL_SPI_Receive(&hspi1, (uint8_t *)aRxBuffer, 2, 100);
     switch (HAL_Status)
     {
       case HAL_OK:
         /* Turn LED1 on: Transfer in reception process is complete */
         HAL_GPIO_TogglePin(LED2_YELLOW_GPIO_Port, LED2_YELLOW_Pin);
-        printf("Hex byte: %02X\n", aRxBuffer[0]);
+        printf("Hex byte: %02X%02X   Decimal: %u\n", aRxBuffer[0], aRxBuffer[1], aRxBuffer[0]);
         break;
       case HAL_TIMEOUT:
         break;
