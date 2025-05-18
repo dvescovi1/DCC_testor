@@ -1,8 +1,7 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
+  * @file           : SUSI_slave.h
+  * @brief          : Header for SUSI_slave.c file.
   *                   This file contains the common defines of the application.
   ******************************************************************************
   * @attention
@@ -16,61 +15,49 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __SUSI_SLAVE_H
+#define __SUSI_SLAVE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
+#include "cmsis_os2.h"
 #include "stm32h5xx_hal.h"
 
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include "SUSI_slave.h"
-/* USER CODE END Includes */
-
 /* Exported types ------------------------------------------------------------*/
-/* USER CODE BEGIN ET */
-
-/* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
-/* USER CODE BEGIN EC */
-extern SPI_HandleTypeDef hspi1;
-/* USER CODE END EC */
+//extern SPI_HandleTypeDef hspi1;
 
 /* Exported macro ------------------------------------------------------------*/
-/* USER CODE BEGIN EM */
-
-/* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
-void Error_Handler(void);
+void SPI1_RxCpltCallback(SPI_HandleTypeDef *hspi);
+void SUSI_slave(void);
 
-/* USER CODE BEGIN EFP */
-
-/* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED2_YELLOW_Pin GPIO_PIN_4
-#define LED2_YELLOW_GPIO_Port GPIOF
-#define LED1_GREEN_Pin GPIO_PIN_0
-#define LED1_GREEN_GPIO_Port GPIOB
-#define LED3_RED_Pin GPIO_PIN_4
-#define LED3_RED_GPIO_Port GPIOG
+/* SUSI commands */
+//TODO: not complete
+#define SUSI_FG1      (0x60)
+#define SUSI_FG2      (0x61)
+#define SUSI_FG3      (0x62)
+#define SUSI_FG4      (0x63)
 
-/* USER CODE BEGIN Private defines */
+#define SUSI_VLOCO    (0x24)
+#define SUSI_VCPU     (0x25)
 
-/* USER CODE END Private defines */
+/* SUSI packet timeout */
+#define PACKET_TIMEOUT_MS  8
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __MAIN_H */
+#endif /* __SUSI_SLAVE_H */

@@ -22,6 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "SUSI_slave.h"
 
 /* USER CODE END Includes */
 
@@ -55,10 +56,10 @@ const osThreadAttr_t Thread1_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 256 * 4
 };
-/* Definitions for ThreadSUSI */
-osThreadId_t ThreadSUSIHandle;
-const osThreadAttr_t ThreadSUSI_attributes = {
-  .name = "ThreadSUSI",
+/* Definitions for ThreadSUSI_SLAVE */
+osThreadId_t ThreadSUSI_SLAVEHandle;
+const osThreadAttr_t ThreadSUSI_SLAVE_attributes = {
+  .name = "ThreadSUSI_SLAVE",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 256 * 4
 };
@@ -106,11 +107,11 @@ void MX_FREERTOS_Init(void) {
   /* creation of Thread1 */
   Thread1Handle = osThreadNew(Thread1_Entry, NULL, &Thread1_attributes);
 
-  /* creation of ThreadSUSI */
-  ThreadSUSIHandle = osThreadNew(ThreadSUSI_Entry, NULL, &ThreadSUSI_attributes);
+  /* creation of ThreadSUSI_SLAVE */
+  ThreadSUSI_SLAVEHandle = osThreadNew(ThreadSUSI_SLAVE_Entry, NULL, &ThreadSUSI_SLAVE_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  if((ThreadSUSIHandle == NULL)||(ThreadSUSIHandle == NULL))
+  if((Thread1Handle == NULL)||(ThreadSUSI_SLAVEHandle == NULL))
   {
     Error_Handler();
   }
@@ -130,9 +131,6 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_Thread1_Entry */
 void Thread1_Entry(void *argument)
 {
-  /* Prevent unused argument warning */
-  (void)argument;
-
   /* USER CODE BEGIN Thread1 */
   uint16_t i;
   /* Infinite loop */
@@ -162,48 +160,18 @@ void Thread1_Entry(void *argument)
   /* USER CODE END Thread1 */
 }
 
-/* USER CODE BEGIN Header_ThreadSUSI_Entry */
+/* USER CODE BEGIN Header_ThreadSUSI_SLAVE_Entry */
 /**
-* @brief Function implementing the ThreadSUSI thread.
+* @brief Function implementing the ThreadSUSI_SLAVE thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_ThreadSUSI_Entry */
-void ThreadSUSI_Entry(void *argument)
+/* USER CODE END Header_ThreadSUSI_SLAVE_Entry */
+void ThreadSUSI_SLAVE_Entry(void *argument)
 {
-  /* Prevent unused argument warning */
-  (void)argument;
-
-  /* USER CODE BEGIN ThreadSUSI */
-
-  HAL_StatusTypeDef HAL_Status;
-  /* Buffer used for reception */
-  uint8_t aRxBuffer[5];
-
-  /* Infinite loop */
-  for(;;)
-  {
-    HAL_Status = HAL_SPI_Receive(&hspi1, (uint8_t *)aRxBuffer, 2, 100);
-    switch (HAL_Status)
-    {
-      case HAL_OK:
-        /* Turn LED1 on: Transfer in reception process is complete */
-        HAL_GPIO_TogglePin(LED2_YELLOW_GPIO_Port, LED2_YELLOW_Pin);
-        printf("Hex byte: %02X%02X   Decimal: %u\n", aRxBuffer[0], aRxBuffer[1], aRxBuffer[0]);
-        break;
-      case HAL_TIMEOUT:
-        break;
-      case HAL_ERROR:
-        /* Turn LED3 on: Transfer error in reception process */
-        //BSP_LED_On(LED3);
-        Error_Handler();
-        break;
-      default:
-        break;
-    }
-    osDelay(1);
-  }
-  /* USER CODE END ThreadSUSI */
+  /* USER CODE BEGIN ThreadSUSI_SLAVE */
+  SUSI_slave();
+  /* USER CODE END ThreadSUSI_SLAVE */
 }
 
 /* Private application code --------------------------------------------------*/

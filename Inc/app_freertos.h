@@ -55,7 +55,7 @@ extern "C" {
 
 /* USER CODE END EM */
 extern osThreadId_t Thread1Handle;
-extern osThreadId_t ThreadSUSIHandle;
+extern osThreadId_t ThreadSUSI_SLAVEHandle;
 extern osMutexId_t MutexHandle;
 
 /* Exported function prototypes -----------------------------------------------*/
@@ -64,7 +64,7 @@ extern osMutexId_t MutexHandle;
 /* USER CODE END FunctionPrototypes */
 
 void Thread1_Entry(void *argument);
-void ThreadSUSI_Entry(void *argument);
+void ThreadSUSI_SLAVE_Entry(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 

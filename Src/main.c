@@ -261,7 +261,7 @@ static void MX_SPI1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN SPI1_Init 2 */
-
+  HAL_SPI_RegisterCallback(&hspi1, HAL_SPI_RX_COMPLETE_CB_ID, SPI1_RxCpltCallback);
   /* USER CODE END SPI1_Init 2 */
 
 }
