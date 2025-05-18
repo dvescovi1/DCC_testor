@@ -1,8 +1,10 @@
-## <b>FreeRTOS_Mutex Application Description</b>
+## <b>Application Description</b>
 
-This application demonstrates the use of mutexes to serialize access to a shared resource.
+This application runs the DCC decoder test suite.
 
-The application has two threads:
+The program uses the FreeRTOS middleware component.
+
+The application has several threads:
 
     -Thread1 : Prints messages counting from 1 to 10 ("Thread1 : This is message number x")
                Blinks the green LED every second
@@ -10,25 +12,9 @@ The application has two threads:
     -Thread2 : Prints messages counting from 1 to 10 ("Thread2 : This is message number x")
                Blinks the yellow LED every second
 
-The mutex is created before the threads using it are scheduled. Each thread will try to acquire it
-before outputting characters to the serial port. Once the mutex is acquired, the thread will proceed
-to printing its message, and then immediately releases it.
-
-If the mutex is not used, the two threads will try to use "printf" at almost the same time. This will
-result in either thread winning over the other or both threads interrupting each other.
-
-The user can observe the effect of not using a mutex to protect printf by setting the
-`EXAMPLE_USES_MUTEX` define in Src/app_freertos.c to 0.
-
 #### <b>Expected success behavior</b>
 
-If the `EXAMPLE_USES_MUTEX` is set to 0, some messages will not be printed, or may be corrupted.
-
-If the `EXAMPLE_USES_MUTEX` is set to 1, each thread will display 10 messages identified by the thread name
-and the message number , for a total of 20 messages. Additional messages will be printed to displayed when
-the mutex is acquired or released.
-
-The yellow LED and green LED will toggle every second.
+The yellow LED and green LEDs are used as application feedback.
 
 #### <b>Error behaviors</b>
 
@@ -56,12 +42,12 @@ on STM32Cube with RTOS".
 
 ### <b>Keywords</b>
 
-FreeRTOS, Mutex
+NMRA, DCC
 
 ### <b>Hardware and Software environment</b>
 
   - This application runs on STM32H563xx devices.
-  - This application has been tested with STMicroelectronics NUCLEO-H563ZI board MB1404 Rev. C01
+  - This application has been tested with STMicroelectronics NUCLEO-H563ZI board
     and can be easily tailored to any other supported device and development board.
 
   - This application uses USART3 to display output, the hyperterminal configuration is as follows:
