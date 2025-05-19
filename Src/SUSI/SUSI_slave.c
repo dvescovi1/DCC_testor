@@ -17,13 +17,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "app_freertos.h"
-#include "projdefs.h"
-#include "queue.h"
-#include "stm32h5xx.h"
-#include "stm32h5xx_hal.h"
-#include "stm32h5xx_hal_def.h"
 #include <stdbool.h>
-#include <sys/types.h>
 
 /* Private includes ----------------------------------------------------------*/
 #include "SUSI.h"

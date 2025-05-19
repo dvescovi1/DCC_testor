@@ -56,7 +56,6 @@ extern "C" {
 /* USER CODE END EM */
 extern osThreadId_t Thread1Handle;
 extern osThreadId_t ThreadSUSI_SLAVEHandle;
-extern osMutexId_t MutexHandle;
 
 /* Exported function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */

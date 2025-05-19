@@ -63,11 +63,6 @@ const osThreadAttr_t ThreadSUSI_SLAVE_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 256 * 4
 };
-/* Definitions for Mutex */
-osMutexId_t MutexHandle;
-const osMutexAttr_t Mutex_attributes = {
-  .name = "Mutex"
-};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -83,14 +78,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
-  /* creation of Mutex */
-  MutexHandle = osMutexNew(&Mutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  if(MutexHandle == NULL)
-  {
-    Error_Handler();
-  }
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
@@ -130,27 +119,8 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_Thread1_Entry */
 void Thread1_Entry(void *argument)
 {
+  (void)argument;
   /* USER CODE BEGIN Thread1 */
-  uint16_t i;
-  /* Infinite loop */
-  for(i = 0; i < 10; ++i)
-  {
-    #if EXAMPLE_USES_MUTEX
-      osMutexAcquire(MutexHandle, osWaitForever);
-      printf ("Thread1: Mutex Acquired!\n");
-    #endif
-
-    printf("Thread1 : This is message number %u\n", i+1);
-
-    #if EXAMPLE_USES_MUTEX
-      printf ("Thread1: Mutex Released!\n");
-      osMutexRelease(MutexHandle);
-    #endif
-
-    HAL_GPIO_TogglePin(LED1_GREEN_GPIO_Port, LED1_GREEN_Pin);
-    osDelay(200);
-  }
-
   while(1)
   {
     HAL_GPIO_TogglePin(LED1_GREEN_GPIO_Port, LED1_GREEN_Pin);
@@ -168,6 +138,7 @@ void Thread1_Entry(void *argument)
 /* USER CODE END Header_ThreadSUSI_SLAVE_Entry */
 void ThreadSUSI_SLAVE_Entry(void *argument)
 {
+  (void)argument;
   /* USER CODE BEGIN ThreadSUSI_SLAVE */
   SUSI_slave();
   /* USER CODE END ThreadSUSI_SLAVE */
