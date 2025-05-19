@@ -26,22 +26,22 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
-#include "cmsis_os2.h"
-#include "stm32h5xx_hal.h"
+#include "app_freertos.h"
 
 /* Exported types ------------------------------------------------------------*/
 
 /* Exported constants --------------------------------------------------------*/
-//extern SPI_HandleTypeDef hspi1;
 
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions prototypes ---------------------------------------------*/
-void SPI1_RxCpltCallback(SPI_HandleTypeDef *hspi);
 void SUSI_slave(void);
 
 
 /* Private defines -----------------------------------------------------------*/
+#define PACKET_SIZE        3
+#define PACKET_TIMEOUT_MS  8
+
 /* SUSI commands */
 //TODO: not complete
 #define SUSI_FG1      (0x60)
@@ -54,6 +54,7 @@ void SUSI_slave(void);
 
 /* SUSI packet timeout */
 #define PACKET_TIMEOUT_MS  8
+#define PACKET_TIMEOUT  pdMS_TO_TICKS(PACKET_TIMEOUT_MS)
 
 
 #ifdef __cplusplus

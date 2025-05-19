@@ -16,10 +16,17 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "SUSI_slave.h"
-
+#include "app_freertos.h"
+#include "projdefs.h"
+#include "queue.h"
+#include "stm32h5xx.h"
+#include "stm32h5xx_hal.h"
+#include "stm32h5xx_hal_def.h"
+#include <stdbool.h>
+#include <sys/types.h>
 
 /* Private includes ----------------------------------------------------------*/
+#include "SUSI.h"
 
 /* Private typedef -----------------------------------------------------------*/
 
@@ -28,22 +35,10 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
+uint8_t packet[PACKET_SIZE];
 
 /* Private function prototypes -----------------------------------------------*/
 
-
-void SPI1_RxCpltCallback(SPI_HandleTypeDef *hspi) {
-#if 0
-  uint8_t rx_buffer[10];
-  uint8_t i;
-
-  /* Check if the SPI handle is the same as the one used for the transfer */
-  if (hspi->Instance == SPI1) {
-    /* Process received data */
-    for (i = 0; i < sizeof(rx_buffer); i++) {
-      tx_buffer[i] = rx_buffer[i] + 1; // Example processing: increment each byte
-#endif
-      }
 
 /**
   * @brief  SUSI slave application
@@ -51,11 +46,68 @@ void SPI1_RxCpltCallback(SPI_HandleTypeDef *hspi) {
   * @retval None
   */
 void SUSI_slave(void) {
+bool bytePacket3 = false;
 
-  /* Infinite loop */
-  for(;;)
+while (1)
   {
-    osDelay(1);
-  }
+    // Receive data using HAL_SPI_Receive
+    if (HAL_TIMEOUT == HAL_SPI_Receive(&hspi1, packet, 2, PACKET_TIMEOUT))
+    {
+      vTaskDelay(1);
+    }
+    else {
+      // Process the received data
+      // test three byte packet
+      if (0x70 == (packet[0] & 0xf0))
+      {
+        if (HAL_TIMEOUT == HAL_SPI_Receive(&hspi1, &packet[2], 1, PACKET_TIMEOUT))
+        {
+          vTaskDelay(1);
+        }
+        else
+        {
+          bytePacket3 = true;
+        }
+      }
+      
+      printf("RX %02x: %02x ", packet[0], packet[1]);
+      if (bytePacket3)
+        printf("%02x", packet[2]);
+      printf("\r\n");
 
+      switch (packet[0])
+      {
+        case SUSI_FG1:
+          printf("FG1 %02x\r\n", packet[1]);
+          // Handle SUSI_FG1 command
+          break;
+        case SUSI_FG2:
+          printf("FG2 %02x\r\n", packet[1]);
+          // Handle SUSI_FG2 command
+          break;
+        case SUSI_FG3:
+          printf("FG3 %02x\r\n", packet[1]);
+          // Handle SUSI_FG3 command
+          break;
+        case SUSI_FG4:
+          printf("FG4 %02x\r\n", packet[1]);
+          // Handle SUSI_FG4 command
+          break;
+        case SUSI_VLOCO:
+          printf("VLOCO %02x\r\n", packet[1]);
+          break;
+        case SUSI_VCPU:
+          printf("VCPU %02x\r\n", packet[1]);
+          break;
+        default:
+          // Unknown command
+          printf("Unknown command!\r\n");
+          break;
+      }
+      // Reset the bytePacket3 flag
+      bytePacket3 = false;
+
+    }
+  }
 }
+  

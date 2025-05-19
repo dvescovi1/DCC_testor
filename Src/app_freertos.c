@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "SUSI_slave.h"
+#include "SUSI.h"
 
 /* USER CODE END Includes */
 
@@ -102,7 +102,6 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
   /* creation of Thread1 */
   Thread1Handle = osThreadNew(Thread1_Entry, NULL, &Thread1_attributes);
