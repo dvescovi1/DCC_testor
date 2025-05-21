@@ -119,7 +119,6 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_Thread1_Entry */
 void Thread1_Entry(void *argument)
 {
-  (void)argument;
   /* USER CODE BEGIN Thread1 */
   while(1)
   {
@@ -138,7 +137,6 @@ void Thread1_Entry(void *argument)
 /* USER CODE END Header_ThreadSUSI_SLAVE_Entry */
 void ThreadSUSI_SLAVE_Entry(void *argument)
 {
-  (void)argument;
   /* USER CODE BEGIN ThreadSUSI_SLAVE */
   SUSI_slave();
   /* USER CODE END ThreadSUSI_SLAVE */
