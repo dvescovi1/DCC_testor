@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.10)
+project(SendLib)
+
+# Set source and header directories
+set(SEND_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SRC/SEND" "${CMAKE_CURRENT_SOURCE_DIR}/PORT_V4" "${CMAKE_CURRENT_SOURCE_DIR}/LIB")
+set(SEND_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/INCLUDE" "${CMAKE_CURRENT_SOURCE_DIR}/PORT_V4" "${CMAKE_CURRENT_SOURCE_DIR}/LIB")
+
+# Gather all source files
+file(GLOB SEND_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/SRC/SEND/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/PORT_V4/*.cpp"
+)
+
+# Create the library
+add_library(SendLib STATIC ${SEND_SOURCES})
+
+# Specify include directories for consumers
+target_include_directories(SendLib PUBLIC 
+    ${SEND_INCLUDE_DIR}
+    ${SEND_SRC_DIR})
