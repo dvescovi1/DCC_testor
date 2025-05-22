@@ -479,12 +479,12 @@ Dec_tst::fsoc_send( const char *msg )
 {
 	if ( FSOC_TST == true )
 	{
-		DBGPRINT( "Skipping fsoc for %s.", msg );
+//		DBGPRINT( "Skipping fsoc for %s.", msg );
 		Dcc_reg.clr_under();
 	}
 	else
 	{
-		DBGPRINT( "Sending fsoc for %s.", msg );
+//		DBGPRINT( "Sending fsoc for %s.", msg );
 		Dcc_reg.clr_under();
 		Dcc_reg.send_pkt( fsoc, "Send fail safe start up sequence." );
 	}

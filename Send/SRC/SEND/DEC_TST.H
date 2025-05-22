@@ -40,7 +40,7 @@ struct Dec_clk
 	u_short			clk0t;			  			// 0T clock in microseconds.
 	u_short			clk0h;		  	   			// 0H clock in microseconds.
 	u_short			clk1t;		  	   			// 1T clock in microseconds.
-	char	  		*msg;			   			// Comment on clock.
+	const char		*msg;			   			// Comment on clock.
 };
 
 /*

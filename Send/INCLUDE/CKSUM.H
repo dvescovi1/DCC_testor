@@ -24,6 +24,10 @@
 #ifndef CKSUM_H_DECLARED
 #define CKSUM_H_DECLARED	"@(#) $Workfile: CKSUM.H $$ $Revision: 1 $$"
 
+//DV:
+    #define _MAX_PATH       80             // DOS Max path + file name. Please make this longer.
+
+
 int
 nCheckSumFile(
 	const char			*pszDirectory,		// Pointer to optional directory name.

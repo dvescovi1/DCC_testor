@@ -29,6 +29,7 @@
 #if SEND_VERSION < 4
 #include <PDS601.H>
 #endif
+#include <dcc.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -81,6 +82,9 @@ Args_obj	Args;
  *		Args_obj() constructs a Args_obj object.
  */
 /*--------------------------------------------------------------------------*/
+//DV:
+const u_short	 	PORT_DEF	= 0x340;	 		// Default I/O base port.
+
 
 Args_obj::Args_obj( void )
 {
