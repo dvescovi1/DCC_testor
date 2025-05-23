@@ -34,6 +34,25 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)
 
+# Include FetchContent module for external dependencies
+include(FetchContent)
+
+FetchContent_Declare( freertos_plus_tcp
+  GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Plus-TCP.git
+  GIT_TAG        main #Note: Best practice to use specific git-hash or tagged version
+  GIT_SUBMODULES "" # Don't grab any submodules since not latest
+)
+
+set(FREERTOS_PLUS_TCP_NETWORK_IF "STM32" CACHE STRING "" FORCE)
+
+FetchContent_MakeAvailable(freertos_plus_tcp)
+
+target_include_directories(freertos_plus_tcp PUBLIC 
+    ${CMAKE_SOURCE_DIR}/inc
+    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/include
+    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM33_NTZ/non_secure
+)
+
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
@@ -63,13 +82,11 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
-
 )
 
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
+    freertos_plus_tcp
     # Add user defined libraries
-
-
 )
